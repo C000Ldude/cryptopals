@@ -1,4 +1,5 @@
 import base64
+from Crypto.Cipher import AES
 
 #converts hex to bytes
 def hextobytes(val):
@@ -19,7 +20,7 @@ def fixedxor(byte1,byte2):
     for i in range(0,len(bytefinal)):
         bytefinal[i]=byte1[i]^byte2[i]
     return bytes(bytefinal)
-    
+
 
 #Does the XOR operation of a byte with another single byte
 def singlebytexor(byte1,byte2):
@@ -42,7 +43,7 @@ def keyxor(byte1,kbyte):
         lkey+=chr(kbyte[j]).encode()
         j+=1
         i+=1
-    
+
     return fixedxor(byte1,lkey)
 
 
@@ -50,9 +51,9 @@ def keyxor(byte1,kbyte):
 #Decode the ciphertext with key
 def keyxordecode(byte1,kbyte):
     return keyxor(byte1,kbyte)
-    
 
-    
+
+
 
 
 #returns the int value of the single key xored for creating ciphertext
@@ -71,11 +72,11 @@ def bruteforcechrs(bt):
                 'q' :  0.095,  'r' : 5.987, 's' : 6.327, 't' : 9.056,
                 'u' :  2.758,  'v' : 0.978, 'w' : 2.360, 'x' : 0.150,
                 'y' :  1.974,  'z' : 0.074, ' ' : 15 }
-    
+
     byteval=0
     frequencies=[]
     for btxored in allbtxored:
-        
+
         frequencycount=0
         for i in range(len(btxored)):
             if chr(btxored[i]) in frequencytable.keys():
@@ -90,7 +91,7 @@ def bruteforcechrs(bt):
         if frequencies[i][1] >highfrequency:
             highfrequencyint=frequencies[i][0]
             highfrequency=frequencies[i][1]
-    
+
     return highfrequencyint
 
 
@@ -116,7 +117,10 @@ def hammingdis(bytemsg1,bytemsg2):
     return count
 
 
-
+#decrypt AES
+def decryptAES(val,akey):
+   pt=AES.new(akey,AES.MODE_ECB)
+   return pt.decrypt(val)
 
 # #calcute character frequency in a byte and return bytes value of characters with highest frequency
 # def charfreq(val):
@@ -142,7 +146,7 @@ def hammingdis(bytemsg1,bytemsg2):
 #             freq=bytedict[i]
 #         elif(bytedict[i]==freq):
 #             guess.append(i)
-        
+
 
 #     retbytes=[]
 
@@ -155,11 +159,11 @@ def hammingdis(bytemsg1,bytemsg2):
 #             hexval=hex(i)[2:]
 #             temp='0'
 #             retbytes.append(bytes.fromhex(temp+hexval))
-    
+
 #     return retbytes
 
-        
-    
 
 
-            
+
+
+
