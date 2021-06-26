@@ -1,43 +1,17 @@
+#this is a dump file
+
+
 from helper import *
 
-txtrd=open('ct.txt','r')
-pt=txtrd.read()
+txtrd=open('encoded8.txt','r')
+pt=txtrd.read().split('\n')
 
 
 msg1=base64tobytes(pt)
 
 
 
-#creating keysize list
-keysize=[]
-for i in range(2,30):
-    keysize.append(i)
-
-hammingdisdict={}
-
-
-
-#finding the keysizes with the smallest normalised edit distance
-for i in keysize:
-    count=[]
-    msgbytes=[]
-    for j in range(50):
-        msgbytes.append(msg1[j*i:(j+1)*i])
-
-    
-    for k in range(len(msgbytes)-1):
-            count.append(hammingdis(msgbytes[k],msgbytes[k+1]))
-    
-    hammingdisdict[i]=round(sum(count)/i,3)
-
-
-#sorting the keysizes by their hamming distance
-sortedhammingdis=sorted(hammingdisdict.items(),key=lambda x:x[1])
-
-
-
-#the first three keysizes with the smallest normalised edit distance
-selectedkeysize=[sortedhammingdis[0][0],sortedhammingdis[1][0],sortedhammingdis[2][0]]
+selectedkeysize=[16,4,8]
 
 #creating blocks
 blocks=[]
@@ -56,7 +30,7 @@ for i in range(3):
             if index<lengthfromtotal:
                 temp+=chr(msg1[index]).encode()
         block.append(temp)
-        
+
     blocks.append(block)
 
 
@@ -68,7 +42,7 @@ trnblockslength=[]
 
 #transponse creation
 for i in range(len(blocks)):
-    
+
 
     blocklen=len(blocks[i][0])
     trnblock=[]
@@ -80,7 +54,7 @@ for i in range(len(blocks)):
         for j in range(len(blocks[i])-1):
             bytetrn+=chr(blocks[i][j][k]).encode()
         trnblock.append(bytetrn)
-    
+
     trnblocks.append(trnblock)
 
 

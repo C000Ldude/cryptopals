@@ -1,7 +1,7 @@
 from helper import *
 
 #extracting all the hex values from the file
-encoded=open("encoded.txt",'r')
+encoded=open("encoded4.txt",'r')
 words=encoded.read().splitlines()
 
 for i in range(0,len(words)):
@@ -14,4 +14,6 @@ for i in range(0,len(words)):
     #doing the XOR operation of byteop with bytehighfreqchar
     result=singlebytexor(byteop,bytehighfreqchar)
 
-    print(i,'   ',result.decode('utf-8','ignore'))
+    #we get the answer at line 170
+    if i==170:
+        print(i,'   ',result.decode('utf-8','ignore'))
